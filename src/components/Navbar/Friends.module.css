@@ -1,0 +1,14 @@
+.friends img {
+    width: 40px;
+    height: 40px;
+    border-radius: 30px;
+}
+
+.friends {
+    display: inline-block;
+    padding: 2px;
+}
+
+.friendsName {
+    padding: 2px;
+}

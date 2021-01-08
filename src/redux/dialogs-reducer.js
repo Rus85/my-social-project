@@ -2,8 +2,8 @@ const ADD_MESSAGE = 'ADD-MESSAGE'
 const UPDATE_NEW_DIALOGS_MESSAGE = 'UPDATE-NEW-DIALOGS-MESSAGE'
 
 let initialState = {
-    
-    
+
+
     dialogs: [
         { id: 1, name: 'Rus' },
         { id: 2, name: 'Janna' },
@@ -21,27 +21,29 @@ let initialState = {
 
 
 const dialogsReducer = (state = initialState, action) => {
-   
+
     switch (action.type) {
-        case ADD_MESSAGE: {
+        case ADD_MESSAGE:
             let newMessage = {
                 message: state.newDialogsMessage,
             };
 
-            let stateCopy = {...state};
-            stateCopy.dialogs = [...state.dialogs];
-            stateCopy.messages = [...state.messages];
-            stateCopy.messages.push(newMessage)
-            stateCopy.newDialogsMessage = ''
-            return stateCopy;
-        }
+            return {
+                ...state,
+                messages: [...state.messages, newMessage],
+                newDialogsMessage: ''
 
-        case UPDATE_NEW_DIALOGS_MESSAGE: {
-            let stateCopy = {...state};
+            }
 
-            stateCopy.newDialogsMessage = action.updateMessage
-            return stateCopy;
-        }
+
+        case UPDATE_NEW_DIALOGS_MESSAGE:
+
+            return {
+                ...state,
+                newDialogsMessage: action.updateMessage
+            }
+
+
         default: return state;
     }
 

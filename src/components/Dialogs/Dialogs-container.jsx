@@ -3,46 +3,20 @@ import Dialogs from './Dialogs';
 import { addMessageActionCreator, updateNewDialogsMessageActionCreator } from '../../redux/dialogs-reducer';
 // import StoreContext from '../../StoreContext';
 import { connect } from 'react-redux';
+import { withAuthRedirect } from '../../hoc/withAuthRedirect';
+import { compose } from 'redux';
 
 
-// const DialogsContainer = () => {
-//     return (
-//         <StoreContext.Consumer>
-//             { (store) => {
-
-//                 let state = store.getState();
-
-//                 let addMessage = () => {
-//                     store.dispatch(addMessageActionCreator())
-//                     // newMessageElement.current.value = ''
-//                 }
-
-//                 let onMessageChange = (mess) => {
-//                     let action = updateNewDialogsMessageActionCreator(mess)
-//                     store.dispatch(action)
-//                 }
-
-
-//                 return (
-//                 <Dialogs addMessage={addMessage} updateNewDialogsMessage={onMessageChange}
-//                     dialogs={state.dialogsPage.dialogs}
-//                     messages={state.dialogsPage.messages}
-//                     newDialogsMessage={state.dialogsPage.newDialogsMessage} />
-//                 )
-//             }
-//             }
-//         </StoreContext.Consumer>
-//     )
-// }
 
 const mapStateToProps = (state) => {
     return {
         dialogs: state.dialogsPage.dialogs,
         messages: state.dialogsPage.messages,
-        newDialogsMessage: state.dialogsPage.newDialogsMessage
-
+        newDialogsMessage: state.dialogsPage.newDialogsMessage,
+    
     }
 }
+
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -55,8 +29,12 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
+export default compose (
 
-const DialogsContainer = connect (mapStateToProps, mapDispatchToProps) (Dialogs);
+    connect (mapStateToProps, mapDispatchToProps),
+    withAuthRedirect
+) 
 
-export default DialogsContainer
+(Dialogs)
+
 

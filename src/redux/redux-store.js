@@ -5,6 +5,7 @@ import friendsReducer from './friends-reducer';
 import usersReducer from './users-reducer';
 import authReducer from './auth-reducer';
 import thunkMiddleware from 'redux-thunk'
+import appReducer from './app-reducer';
 
 // const { createStore, combineReducers } = require("redux");
 
@@ -15,6 +16,7 @@ let reducers = combineReducers({
     friendsPage: friendsReducer,
     usersPage: usersReducer,
     auth: authReducer,
+    app: appReducer
     
 });
 

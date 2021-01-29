@@ -1,6 +1,8 @@
 import React from 'react';
+import { Form, Field } from 'react-final-form';
 import { NavLink, Redirect } from 'react-router-dom';
 import s from './Dialogs.module.css';
+
 
 
 
@@ -43,7 +45,23 @@ const Dialogs = (props) => {
 
     }
 
-    
+    let addNewMessage = (values) => {
+        props.addMessage(values.newMessageBody);
+    }
+
+    const validate = (e) => {
+        const errors = {}
+
+        if (e.newMessageBody && e.newMessageBody.length < 5) {
+            errors.newMessageBody = 'SHORT MESSAGE'
+       } 
+       
+       else if (e.newMessageBody && e.newMessageBody.length > 10) {
+        errors.newMessageBody  = 'MAX SYMBOLS 10'
+       }
+        return errors
+    }
+
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
@@ -52,18 +70,43 @@ const Dialogs = (props) => {
             <div className={s.messages}>
                 <div>{messagesElements}</div>
             </div>
-            <div>
-                <div>
-                    <textarea placeholder='Enter your message' onChange={onMessageChange} ref={newMessageElement} value={props.newDialogsMessage}></textarea>
-                </div>
-                <div>
-                    <button onClick={addMessage}>Add message</button>
-                </div>
-            </div>
+
+            <Form
+                initialValues={{ newMessageBody: '' }}
+                onSubmit={addNewMessage}
+                validate={validate}
+            >
+
+            
+                {({ handleSubmit, pristine, form, submitting }) => (
+                    
+
+                    <form onSubmit={handleSubmit}>
+
+                        <div>
+                            <Field
+                                name="newMessageBody"
+                                render={({ input, meta }) => (
+
+                                    <div>
+                                        <textarea {...input} placeholder='Message' />
+                                        {meta.touched && meta.error && <div className={s.shortMessage}>{meta.error}</div>}
+                                    </div>
+                                )}
+                            />
+                        </div>
+                        <div>
+                            <button type="submit" disabled={submitting}>Submit</button>
+                        </div>
+
+                    </form>
+                )}
+            </Form>
         </div>
 
-
     )
+
 }
+
 
 export default Dialogs;

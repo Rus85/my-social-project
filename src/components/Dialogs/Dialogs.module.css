@@ -32,3 +32,8 @@
     border-radius: 30px;
     
 }
+
+.shortMessage {
+    border: 3px solid red;
+}
+

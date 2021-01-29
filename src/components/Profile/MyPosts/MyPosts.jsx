@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import s from './MyPosts.module.css'
 import Post from './Post/Post';
+import { Form, Field } from 'react-final-form';
+import { maxLenghtCreator, required } from '../../validators/validators';
 
 
 const MyPosts = (props) => {
@@ -19,22 +21,55 @@ const MyPosts = (props) => {
     props.updateNewPostText(text);
   }
 
+  let addNewPost = (values) => {
+    props.addPost(values.newPostBody);
+  }
+
+  const validate = (e) => {
+    const errors = {}
+
+    if (e.newPostBody && e.newPostBody.length < 5) {
+      errors.newPostBody = 'too short message'
+    }
+    return errors
+  }
+
   return (
     <div className={s.postsBlock}>
       <h3>My news</h3>
-      <div>
-        <div>
-          <textarea onChange={onPostChange} ref={newPostElement}
-            value={props.newPostText} />
-        </div>
-        <div><button onClick={addPost}>Add post</button></div>
-      </div>
+
+      <Form
+        initialValues={{ newPostBody: '' }}
+        onSubmit={addNewPost}
+        validate={validate}>
+
+          {({ handleSubmit, pristine, form, submitting }) => (
+
+          <form onSubmit={handleSubmit}>
+
+            <div>
+              <Field
+                name="newPostBody"
+                component="textarea"
+                type="text"
+                placeholder="Enter message" />
+            </div>
+            <div>
+              <button type="submit" disabled={submitting}>Submit</button>
+            </div>
+
+          </form>
+        )}
+      </Form>
+
       <div className={s.posts}>
         {postsElement}
+
       </div>
     </div>
   )
 }
+
 
 
 export default MyPosts;

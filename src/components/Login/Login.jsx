@@ -55,8 +55,7 @@ const Login = (props) => {
                 disabled={pristine || submitting}
                 onClick={form.reset}>Clear Values</button>
             </div>
-           <div className={s.loginFormError}>test</div>
-          </form>
+         </form>
         )}
       </Form>
     )

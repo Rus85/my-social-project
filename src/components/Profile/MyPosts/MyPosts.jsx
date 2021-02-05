@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import s from './MyPosts.module.css'
 import Post from './Post/Post';
 import { Form, Field } from 'react-final-form';
-import { maxLenghtCreator, required } from '../../validators/validators';
+
 
 
 const MyPosts = (props) => {
 
   let postsElement =
-    props.posts.map(p => <Post id={p.id} like={p.likesCount} key={p.id} message={p.message} />)
+    [...props.posts]
+    .reverse().map(p => <Post id={p.id} like={p.likesCount} key={p.id} message={p.message} />)
 
   let newPostElement = React.createRef();
 
@@ -50,9 +51,13 @@ const MyPosts = (props) => {
             <div>
               <Field
                 name="newPostBody"
-                component="textarea"
-                type="text"
-                placeholder="Enter message" />
+                 render={({input, meta}) => (
+                   <div>
+                     <textarea {...input} placeholder='' />
+                     {meta.touched && meta.error && <div>{meta.error}</div>}
+                </div>
+                )}
+                />
             </div>
             <div>
               <button type="submit" disabled={submitting}>Submit</button>

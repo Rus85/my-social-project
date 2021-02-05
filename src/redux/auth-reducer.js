@@ -31,33 +31,27 @@ const authReducer = (state = initialState, action) => {
 
 export const setAuthUserData = (userId, email, login, isAuth) => ({ type: SET_USER_DATA, data: { userId, email, login, isAuth } })
 
-export const getAuthUserData = () => (dispatch) => {
-    return usersAPI.authorization().then(response => {
-        if (response.data.resultCode === 0) {
-            let { id, email, login } = response.data.data
-            dispatch(setAuthUserData(id, email, login, true))
-        }
-    })
-
+export const getAuthUserData = () => async (dispatch) => {
+    let response = await usersAPI.authorization()
+    if (response.data.resultCode === 0) {
+        let { id, email, login } = response.data.data
+        dispatch(setAuthUserData(id, email, login, true))
+    }
 }
 
 
-export const LoginApi = (email, password, rememberMe) => (dispatch) => {
-    usersAPI.login(email, password, rememberMe).then(response => {
-        if (response.data.resultCode === 0) {
-            dispatch(getAuthUserData())
-        } 
-        
-    })
-
+export const LoginApi = (email, password, rememberMe) => async (dispatch) => {
+    let response = await usersAPI.login(email, password, rememberMe)
+    if (response.data.resultCode === 0) {
+        dispatch(getAuthUserData())
+    }
 }
-export const LogOutApi = () => (dispatch) => {
-    usersAPI.logOut().then(response => {
-        if (response.data.resultCode === 0) {
-            dispatch(setAuthUserData(null, null, null, false))
-        }
-    })
 
+export const LogOutApi = () => async (dispatch) => {
+    let response = await usersAPI.logOut()
+    if (response.data.resultCode === 0) {
+        dispatch(setAuthUserData(null, null, null, false))
+    }
 }
 
 

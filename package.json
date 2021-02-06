@@ -2,7 +2,7 @@
   "name": "react-kabzda-1",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://rus85.github.io/",
+  "homepage": "https://rus85.github.io/my-social-project-demo/",
   "dependencies": {
     "axios": "^0.21.0",
     "classnames": "^2.2.6",
